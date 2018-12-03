@@ -417,6 +417,7 @@ public:
             sync_points_reading.insert(df.previousSync());
             df.close();
         }
+
         BOOST_CHECK(sync_points_syncing == sync_points_reading);
         // Just to make sure we're actually finding a reasonable number of
         // splits.. rather than bugs like only find the first split.

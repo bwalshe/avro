@@ -138,6 +138,9 @@ void DataFileWriterBase::sync()
 
     encoderPtr_->init(*stream_);
     avro::encode(*encoderPtr_, objectCount_);
+    if(objectCount_ == 0) {
+        return;
+    }
     if (codec_ == NULL_CODEC) {
         int64_t byteCount = buffer_->byteCount();
         avro::encode(*encoderPtr_, byteCount);
@@ -390,6 +393,7 @@ bool DataFileReaderBase::readDataBlock()
     stream_->backup(n);
     avro::decode(*decoder_, objectCount_);
     int64_t byteCount;
+    
     avro::decode(*decoder_, byteCount);
     decoder_->init(*stream_);
     blockEnd_ = stream_->byteCount() + byteCount;
@@ -454,7 +458,8 @@ bool DataFileReaderBase::readDataBlock()
     } else {
         throw Exception("Bad codec");
     }
-    return true;
+    return true; //TODO: consider returning byteCount>0;
+    
 }
 
 void DataFileReaderBase::close()
