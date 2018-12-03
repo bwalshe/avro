@@ -189,6 +189,7 @@ public:
             ComplexInteger c(re, im);
             df.write(c);
         }
+        df.flush();
         df.close();
     }
 
